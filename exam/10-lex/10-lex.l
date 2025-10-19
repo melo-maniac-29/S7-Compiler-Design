@@ -17,6 +17,7 @@ int main(){
     printf("Total Words: %d\n", w);
     printf("Total Lines: %d\n", line);
     printf("Total Spaces: %d\n", space);
+    fclose(yyin);
     return 0;
 }
 

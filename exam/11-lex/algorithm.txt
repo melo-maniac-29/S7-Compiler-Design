@@ -1,0 +1,31 @@
+/*
+ALGORITHM: Vowel and Consonant Counter using LEX
+
+1. INITIALIZATION:
+   - Declare vowel_count = 0 (to count vowels)
+   - Declare const_count = 0 (to count consonants)
+   - Include necessary header files
+
+2. PATTERN MATCHING RULES:
+   a. Vowel Pattern: [aeiouAEIOU]
+      - When any vowel (uppercase or lowercase) is encountered
+      - Increment vowel_count by 1
+   
+   b. Consonant Pattern: [a-zA-Z]
+      - When any alphabetic character is encountered
+      - Check if it's not a vowel (implicitly handled by rule order)
+      - Increment const_count by 1
+      
+3. FILE PROCESSING:
+   - Read input from standard input or file
+   - Call yylex() to tokenize and process based on defined patterns
+   - Each vowel/consonant match triggers corresponding counter increment
+
+4. OUTPUT:
+   - Display total number of vowels found
+   - Display total number of consonants found
+
+5. TERMINATE:
+   - yywrap() returns 1 to indicate end of input
+   - Program exits successfully
+*/
