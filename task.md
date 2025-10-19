@@ -1,10 +1,16 @@
-Programs for internal lab exam
-1. Dfa implementation 
-2. e closure for all states
-3. Recursive Descent Parser 
-4. Shift reduce parser
-5. Intermediate code generation 
-6. Constant propogation 
-7. Lex program for count vowels and consonants 
-8. Lex program for count no of words,lines, characters and space 
-9. Lex program for convert substring abc
+1-lexical analyzer
+2-dfa implementation
+3-epsilon closure
+4-recursive descent parser
+5-shift reduce parser
+6-first and follow
+7-constant propogation
+8-intermediate code generation
+9-backend of compiler
+----lex----
+10-count of words,line,space and characters
+11-count of vowels and consonants
+12-substring
+13-lexical analyzer using lex
+----yaac----
+14-calculator
