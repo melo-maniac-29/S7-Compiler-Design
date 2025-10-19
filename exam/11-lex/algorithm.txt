@@ -1,0 +1,35 @@
+
+ALGORITHM: Character, Word, Line, and Space Counter using LEX
+
+1. INITIALIZATION:
+   - Declare counters: c=0 (characters), w=0 (words), line=1 (lines), space=0 (spaces)
+   - Include necessary header files
+
+2. PATTERN MATCHING RULES:
+   a. Space Pattern: [" "]*
+      - When one or more spaces are encountered
+      - Increment space counter by 1
+   
+   b. Newline Pattern: ["\n"]*
+      - When one or more newlines are encountered
+      - Increment line counter by 1
+   
+   c. Word Pattern: [a-zA-Z0-9]+
+      - When alphanumeric sequence (word) is found
+      - Increment word counter by 1
+      - Add the length of the word (yyleng) to character counter
+
+3. FILE PROCESSING:
+   - Open "input.txt" for reading
+   - Call yylex() to tokenize and process the file based on defined patterns
+   - Each match triggers corresponding action (incrementing counters)
+
+4. OUTPUT:
+   - Display total characters counted
+   - Display total words counted
+   - Display total lines counted
+   - Display total spaces counted
+
+5. TERMINATE:
+   - yywrap() returns 1 to indicate end of input
+   - Program exits successfully

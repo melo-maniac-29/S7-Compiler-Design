@@ -442,11 +442,47 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 ".\\11-lex.l"
-#line 2 ".\\11-lex.l"
+/*
+ALGORITHM: Character, Word, Line, and Space Counter using LEX
+
+1. INITIALIZATION:
+   - Declare counters: c=0 (characters), w=0 (words), line=1 (lines), space=0 (spaces)
+   - Include necessary header files
+
+2. PATTERN MATCHING RULES:
+   a. Space Pattern: [" "]*
+      - When one or more spaces are encountered
+      - Increment space counter by 1
+   
+   b. Newline Pattern: ["\n"]*
+      - When one or more newlines are encountered
+      - Increment line counter by 1
+   
+   c. Word Pattern: [a-zA-Z0-9]+
+      - When alphanumeric sequence (word) is found
+      - Increment word counter by 1
+      - Add the length of the word (yyleng) to character counter
+
+3. FILE PROCESSING:
+   - Open "input.txt" for reading
+   - Call yylex() to tokenize and process the file based on defined patterns
+   - Each match triggers corresponding action (incrementing counters)
+
+4. OUTPUT:
+   - Display total characters counted
+   - Display total words counted
+   - Display total lines counted
+   - Display total spaces counted
+
+5. TERMINATE:
+   - yywrap() returns 1 to indicate end of input
+   - Program exits successfully
+*/
+#line 39 ".\\11-lex.l"
 #include <stdio.h>
 int c=0,w=0,line=1,space=0;
-#line 448 "lex.yy.c"
-#line 449 "lex.yy.c"
+#line 484 "lex.yy.c"
+#line 485 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -663,9 +699,9 @@ YY_DECL
 		}
 
 	{
-#line 5 ".\\11-lex.l"
+#line 42 ".\\11-lex.l"
 
-#line 668 "lex.yy.c"
+#line 704 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -724,26 +760,26 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 6 ".\\11-lex.l"
+#line 43 ".\\11-lex.l"
 {space++;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 7 ".\\11-lex.l"
+#line 44 ".\\11-lex.l"
 {line++;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 8 ".\\11-lex.l"
+#line 45 ".\\11-lex.l"
 {w++,c=c+yyleng;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 9 ".\\11-lex.l"
+#line 46 ".\\11-lex.l"
 ECHO;
 	YY_BREAK
-#line 746 "lex.yy.c"
+#line 782 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1748,7 +1784,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 9 ".\\11-lex.l"
+#line 46 ".\\11-lex.l"
 
 int yywrap(){
     return 1;
@@ -1762,3 +1798,14 @@ int main(){
     printf("Total Spaces: %d\n", space);
     return 0;
 }
+
+
+/*
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\11-lex> win_flex .\11-lex.l
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\11-lex> gcc .\lex.yy.c
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\11-lex> .\a.exe
+Total Characters: 20
+Total Words: 6
+Total Lines: 2
+Total Spaces: 4
+*/
