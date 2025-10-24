@@ -1,0 +1,49 @@
+ALGORITHM: Substring Replacement using LEX (Replace "abc" with "ABC")
+
+1. INITIALIZATION:
+   - Declare integer variable i for loop iteration
+   - Include necessary header files (stdio.h)
+
+2. PATTERN MATCHING RULES:
+   a. Alphabetic String Pattern: [a-zA-Z]*
+      - Matches sequences of alphabetic characters (words)
+      - Action: Process the matched string for substring replacement
+
+3. SUBSTRING REPLACEMENT LOGIC:
+   - For each matched alphabetic string (yytext):
+     a. Iterate through each character position (i) from 0 to yyleng
+     b. Check if current position contains substring "abc":
+        - yytext[i] == 'a'
+        - yytext[i+1] == 'b' 
+        - yytext[i+2] == 'c'
+     c. If "abc" is found:
+        - Replace yytext[i] with 'A'
+        - Replace yytext[i+1] with 'B'
+        - Replace yytext[i+2] with 'C'
+   - Print the modified string using printf()
+
+4. INPUT PROCESSING:
+   - Read input from standard input (keyboard)
+   - Process each alphabetic word separately
+   - Apply substring replacement to each word
+   - Print the modified word immediately
+
+5. OUTPUT:
+   - Display the input string with all occurrences of "abc" replaced by "ABC"
+   - Other characters and words remain unchanged
+
+6. TERMINATE:
+   - yywrap() returns 1 to indicate end of input
+   - Program exits successfully
+
+EXAMPLE:
+   Input: "hi myself abc"
+   Output: "hi myself ABC"
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: win_flex .\prog.l
+           (Generates lex.yy.c file)
+   Step 2: gcc .\lex.yy.c
+           (Compiles and generates a.exe)
+   Step 3: .\a.exe
+           (Executes the program and waits for input)
