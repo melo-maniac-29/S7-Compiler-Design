@@ -1,0 +1,108 @@
+SAMPLE OUTPUT: Recursive Descent Parser Program Execution
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: a+b*c
+
+Accepted
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: (a+b)*c
+
+Accepted
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: a++b
+
+Rejected
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: (a+b
+
+Rejected
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: x1+y2*z3
+
+Accepted
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: a*b+c*d
+
+Accepted
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: ((a+b)*(c+d))
+
+Accepted
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> .\a.exe
+
+Enter an arithmetic expression: a+*b
+
+Rejected
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\4-Recursive descent> 
+
+===========================================================================
+
+EXPLANATION OF THE SAMPLE OUTPUT:
+
+GRAMMAR USED:
+E  → T E'
+E' → + T E' | ε
+T  → F T'
+T' → * F T' | ε
+F  → ( E ) | identifier
+
+TEST CASES ANALYSIS:
+
+1. Expression: "a+b*c"
+   Parse Tree: E → T E' → F T' E' → a ε (+ T E') → a + F T' ε → a + b (* F T') → a + b * c ε
+   Result: ACCEPTED (follows grammar rules, * has higher precedence)
+
+2. Expression: "(a+b)*c"
+   Parse Tree: E → T E' → F T' E' → (E) T' ε → (T E') T' ε → (F T' E') (* F T') → (a ε (+ T E')) * c ε
+   Result: ACCEPTED (parentheses properly matched, sub-expression valid)
+
+3. Expression: "a++b"
+   Error: After parsing "a+", expects term but finds another '+'
+   Result: REJECTED (invalid syntax - consecutive operators)
+
+4. Expression: "(a+b"
+   Error: Missing closing parenthesis ')'
+   Result: REJECTED (unmatched parentheses)
+
+5. Expression: "x1+y2*z3"
+   Parse Tree: Valid identifier names with alphanumeric characters
+   Result: ACCEPTED (valid identifiers and operations)
+
+6. Expression: "a*b+c*d"
+   Parse Tree: E → T E' → F T' E' → a (* F T') (+ T E') → a * b + F T' ε → a * b + c * d
+   Result: ACCEPTED (left-associative parsing, correct precedence)
+
+7. Expression: "((a+b)*(c+d))"
+   Parse Tree: Nested parentheses with valid sub-expressions
+   Result: ACCEPTED (properly nested expressions)
+
+8. Expression: "a+*b"
+   Error: After parsing "a+", expects factor but finds '*'
+   Result: REJECTED (invalid operator sequence)
+
+PARSING STRATEGY:
+- Top-down parsing using recursive descent
+- Each grammar rule implemented as a function
+- Left-recursion eliminated using E' and T' productions
+- Error detection through global error flag
+- Complete input consumption required for acceptance
+
+OPERATOR PRECEDENCE (Highest to Lowest):
+1. Parentheses ()
+2. Multiplication *
+3. Addition +

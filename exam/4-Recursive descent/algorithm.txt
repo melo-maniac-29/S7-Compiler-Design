@@ -1,0 +1,87 @@
+ALGORITHM: Recursive Descent Parser for Arithmetic Expressions
+
+1. INITIALIZATION:
+   - Declare global variables: input[10] (expression string), i=0 (current position), error=0 (error flag)
+   - Declare function prototypes: E(), T(), Eprime(), Tprime(), F()
+
+2. GRAMMAR RULES IMPLEMENTED:
+   E  → T E'
+   E' → + T E' | ε (epsilon)
+   T  → F T'
+   T' → * F T' | ε (epsilon)
+   F  → ( E ) | identifier
+
+3. MAIN FUNCTION:
+   a. Input Phase:
+      - Read arithmetic expression string into input[]
+      - Initialize parsing position i = 0
+   
+   b. Parsing Phase:
+      - Call E() to start parsing from the start symbol
+   
+   c. Acceptance Check:
+      - If entire string consumed (strlen(input) == i) AND no errors (error == 0):
+        * Print "Accepted"
+      - Else: Print "Rejected"
+
+4. PARSING FUNCTIONS:
+
+   a. E() Function (Expression):
+      - Call T() to parse term
+      - Call Eprime() to parse remaining expression
+
+   b. Eprime() Function (Expression Prime):
+      - If current character is '+':
+        * Consume '+' (increment i)
+        * Call T() to parse next term
+        * Call Eprime() recursively for more terms
+      - Else: Do nothing (epsilon production)
+
+   c. T() Function (Term):
+      - Call F() to parse factor
+      - Call Tprime() to parse remaining term
+
+   d. Tprime() Function (Term Prime):
+      - If current character is '*':
+        * Consume '*' (increment i)
+        * Call F() to parse next factor
+        * Call Tprime() recursively for more factors
+      - Else: Do nothing (epsilon production)
+
+   e. F() Function (Factor):
+      - If current character is '(':
+        * Consume '(' (increment i)
+        * Call E() to parse sub-expression
+        * If current character is ')': consume it
+        * Else: Set error = 1 (missing closing parenthesis)
+      - Else if current character is alphabetic or '_':
+        * Consume identifier characters (letters, digits, underscore)
+        * Continue until non-identifier character found
+      - Else: Set error = 1 (invalid factor)
+
+5. ERROR HANDLING:
+   - Global error flag set to 1 when syntax errors detected
+   - Errors detected: missing ')', invalid characters, incomplete parsing
+
+6. OUTPUT:
+   - "Accepted": Valid arithmetic expression according to grammar
+   - "Rejected": Invalid expression or parsing error
+
+GRAMMAR PRECEDENCE:
+   - Multiplication (*) has higher precedence than addition (+)
+   - Parentheses override default precedence
+   - Left-associative operators
+
+VALID EXPRESSIONS:
+   - Simple identifiers: a, x1, var_name
+   - Addition: a+b, x+y+z
+   - Multiplication: a*b, x*y*z
+   - Mixed: a+b*c, a*b+c
+   - Parentheses: (a+b)*c, a*(b+c)
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o prog.exe
+           (Compiles the recursive descent parser)
+   Step 2: ./prog.exe
+           (Executes the parser)
+   Step 3: Enter arithmetic expression when prompted
