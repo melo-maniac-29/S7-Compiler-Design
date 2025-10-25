@@ -1,0 +1,75 @@
+ALGORITHM: Epsilon Closure (ε-closure) Computation for NFA
+
+1. INITIALIZATION:
+   - Declare arrays: states[20][20] (list of all states)
+   - Declare arrays: result[20][20] (stores closure set for current state)
+   - Declare arrays: transitions[20][3][3] (stores [from_state][input][to_state])
+   - Declare variables: n (number of states), tcount (number of transitions)
+   - Declare variable: res_count (count of states in current closure)
+
+2. INPUT PHASE:
+   a. State Input:
+      - Read number of states (n)
+      - Read all state names and store in states[] array
+   
+   b. Transition Input:
+      - Read number of transitions (tcount)
+      - For each transition:
+        * Read from_state, input_symbol, to_state
+        * Store in transitions[i][0], transitions[i][1], transitions[i][2]
+        * Note: Epsilon transitions are represented as "e"
+
+3. EPSILON CLOSURE COMPUTATION:
+   For each state in the NFA:
+   a. Initialize result set (res_count = 0)
+   b. Call epsilon_closure(current_state, transitions, tcount)
+   c. Display the computed closure set
+
+4. EPSILON_CLOSURE RECURSIVE FUNCTION:
+   Parameters: state, transitions array, transition count
+   a. Add current state to result set using add_state()
+   b. For each transition in transitions array:
+      - If transition is from current state AND input is epsilon ("e"):
+        * Recursively call epsilon_closure for the destination state
+        * This finds all states reachable via epsilon transitions
+
+5. ADD_STATE HELPER FUNCTION:
+   Parameters: state to add
+   a. Check if state already exists in result[] array
+   b. If not duplicate, add to result[] and increment res_count
+   c. This prevents duplicate states in closure set
+
+6. OUTPUT PHASE:
+   For each state:
+   - Display "Epsilon closure of [state] = { [all reachable states] }"
+   - Show complete closure set including the state itself
+
+7. TERMINATE:
+   - Program completes after computing closures for all states
+
+EXAMPLE NFA WITH EPSILON TRANSITIONS:
+   States: {q0, q1, q2, q3}
+   Transitions:
+   - q0 --ε--> q1 (epsilon transition)
+   - q0 --a--> q2 (regular transition)
+   - q1 --ε--> q3 (epsilon transition)
+   - q2 --b--> q3 (regular transition)
+
+   Epsilon Closures:
+   - ε-closure(q0) = {q0, q1, q3} (q0 can reach q1 via ε, q1 can reach q3 via ε)
+   - ε-closure(q1) = {q1, q3} (q1 can reach q3 via ε)
+   - ε-closure(q2) = {q2} (no epsilon transitions from q2)
+   - ε-closure(q3) = {q3} (no epsilon transitions from q3)
+
+KEY CONCEPTS:
+- Epsilon closure includes the state itself plus all states reachable via epsilon transitions
+- Uses recursive depth-first search to find all epsilon-reachable states
+- Essential for NFA to DFA conversion and NFA simulation
+- Reflexive: Every state is in its own epsilon closure
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o prog.exe
+           (Compiles the epsilon closure program)
+   Step 2: ./prog.exe
+           (Executes the program)
+   Step 3: Follow prompts to input states and transitions
