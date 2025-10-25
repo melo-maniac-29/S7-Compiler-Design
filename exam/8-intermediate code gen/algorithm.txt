@@ -1,0 +1,102 @@
+ALGORITHM: Intermediate Code Generation for Arithmetic Expressions
+
+1. INITIALIZATION:
+   - Declare global variables: i=0, j=0, n=0, tempch=90 ('Z')
+   - Declare arrays: str[100] (input expression), left[15], right[15] (operands)
+   - Declare structure expf with fields: pos (position), op (operator)
+   - Declare array k[15] to store operators and their positions
+
+2. INPUT PHASE:
+   - Read arithmetic expression from user
+   - Store in string array str[]
+
+3. OPERATOR IDENTIFICATION (findopr function):
+   - Initialize j = 0
+   - Scan expression string for operators in correct precedence order:
+     a. First scan: Find '/' (division) - highest precedence
+     b. Second scan: Find '*' (multiplication) - highest precedence
+     c. Third scan: Find '+' (addition) - medium precedence
+     d. Fourth scan: Find '-' (subtraction) - medium precedence  
+     e. Fifth scan: Find '=' (assignment) - lowest precedence
+   - For each operator found:
+     * Store position in k[j].pos
+     * Store operator in k[j].op
+     * Increment counter j
+
+4. CODE GENERATION (explore function):
+   - Initialize counter i = 0
+   - While i < j and operators exist in k[] array:
+     a. Call fleft(k[i].pos) to find left operand
+     b. Call fright(k[i].pos) to find right operand
+     c. Replace operator position with temporary variable (tempch--)
+     d. Generate three-address code: "temp := left op right"
+     e. Print intermediate code and remaining expression
+     f. Increment i to process next operator
+
+5. LEFT OPERAND EXTRACTION (fleft function):
+   - Start from position x-1 (left of operator)
+   - Move leftward until operator, '$' marker, or string boundary found
+   - Extract first valid operand character by character
+   - Mark extracted position with '$' to avoid reuse
+   - Call reverse() function to correct the backwards reading
+   - Store corrected operand in left[] array
+
+6. RIGHT OPERAND EXTRACTION (fright function):
+   - Start from position x+1 (right of operator)
+   - Move rightward until operator, '$' marker, or string end found
+   - Extract first valid operand character by character
+   - Mark extracted position with '$' to avoid reuse
+   - Store operand in right[] array (no reversal needed)
+
+7. STRING REVERSAL (reverse function):
+   - Calculate string length
+   - Swap characters from both ends moving toward center
+   - Used to correct left operands read backwards
+
+7. FINAL CODE GENERATION:
+   - After processing all operators, handle final assignment
+   - If single operand remains: "result := operand"
+   - If temporary variable remains: "result := temp"
+
+8. OUTPUT FORMAT:
+   - Display intermediate code in three-address format
+   - Show step-by-step expression transformation
+   - Use temporary variables Z, Y, X, W, V... in reverse alphabetical order
+
+9. TERMINATE:
+   - Program exits after generating complete intermediate code
+
+PRECEDENCE ORDER (High to Low):
+1. / (division) - processed first
+2. * (multiplication) - processed second
+3. + (addition) - processed third
+4. - (subtraction) - processed fourth
+5. = (assignment) - processed last
+
+EXAMPLE TRANSFORMATION:
+   Input: a+b*c-d
+   
+   Step 1: Process '*' (highest precedence among remaining)
+   Y := b * c        Expression: a+Y-d
+   
+   Step 2: Process '+' 
+   X := a + Y        Expression: X-d
+   
+   Step 3: Process '-'
+   Z := X - d        Expression: Z
+   
+   Final: result := Z
+
+THREE-ADDRESS CODE CHARACTERISTICS:
+- Maximum of one operator per statement
+- At most three addresses (two operands + one result)
+- Temporary variables for intermediate results
+- Sequential execution order
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o prog.exe
+           (Compiles the intermediate code generator)
+   Step 2: ./prog.exe
+           (Executes the code generator)
+   Step 3: Enter arithmetic expression (e.g., a+b*c)
+   Step 4: View generated three-address intermediate code
