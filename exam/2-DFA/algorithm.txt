@@ -1,0 +1,73 @@
+ALGORITHM: Deterministic Finite Automaton (DFA) Simulator
+
+1. INITIALIZATION:
+   - Declare arrays: state[10] (states), input[10] (alphabet), x[20] (transition table)
+   - Declare variables: s (number of states), n (number of inputs), fs (final state)
+   - Declare variables: q (current state index), nxt (next state), z (continue flag)
+
+2. DFA DEFINITION PHASE:
+   a. State Input:
+      - Read number of states (s)
+      - For each state i from 0 to s-1:
+        * Read state number
+        * Check if it's a final state (1 for yes, 0 for no)
+        * If yes, store as final state (fs)
+   
+   b. Alphabet Input:
+      - Read number of input symbols (n)
+      - Read each input symbol and store in input[] array
+   
+   c. Transition Table Creation:
+      - For each state i and each input symbol j:
+        * Display "(q[state[i]], input[j]) = q"
+        * Read the next state for this transition
+        * Store in transition table x[] using index formula: x[n*i + j]
+
+3. STRING PROCESSING LOOP:
+   a. String Input:
+      - Read length of input string (l)
+      - Read each symbol of the string into str[] array
+   
+   b. DFA Simulation:
+      - Initialize current state index q = 0 (start from first state)
+      - For each symbol str[i] in input string:
+        * Find matching input symbol in alphabet
+        * Get next state from transition table: nxt = x[n*q + t]
+        * Update current state index q by finding position of nxt in state array
+   
+   c. Acceptance Check:
+      - If final state (nxt == fs): Print "string is accepted"
+      - Else: Print "string is not accepted"
+
+4. CONTINUATION:
+   - Ask user if they want to test another string
+   - If yes (z = 1), repeat from step 3
+   - If no (z = 0), terminate program
+
+5. TERMINATE:
+   - Program exits when user chooses not to continue
+
+EXAMPLE DFA (Accepts strings with at least two consecutive 0's):
+   States: {0, 1, 2}
+   Alphabet: {0, 1}
+   Start State: q0
+   Final State: q2
+   Transitions:
+   - δ(q0, 0) = q1  (first 0 encountered)
+   - δ(q0, 1) = q0  (stay in start state)
+   - δ(q1, 0) = q2  (second consecutive 0, reach final state)
+   - δ(q1, 1) = q1  (reset, wait for 0)
+   - δ(q2, 0) = q2  (stay in final state)
+   - δ(q2, 1) = q2  (stay in final state)
+
+   Test Cases:
+   1. Input String: "001" → ACCEPTED (has "00")
+   2. Input String: "11"  → REJECTED (no consecutive 0's)
+   3. Input String: "0100" → ACCEPTED (has "00" at end)
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o prog.exe
+           (Compiles the C program)
+   Step 2: ./prog.exe
+           (Executes the DFA simulator)
+   Step 3: Follow prompts to define DFA and test strings

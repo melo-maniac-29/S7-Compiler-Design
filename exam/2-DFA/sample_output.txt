@@ -1,0 +1,108 @@
+SAMPLE OUTPUT: DFA Simulator Program Execution
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\2-DFA> .\a.exe
+
+Enter the no of states
+3
+enter the no of inputs
+2
+Enter the state
+0
+is it final state?... .y..1/n..0
+0
+Enter the state
+1
+is it final state?... .y..1/n..0
+0
+Enter the state
+2
+is it final state?... .y..1/n..0
+1
+Enter the inputs
+0
+1
+Transition state
+(q0,0)=q1
+(q0,1)=q0
+(q1,0)=q2
+(q1,1)=q1
+(q2,0)=q2
+(q2,1)=q2
+Enter the length of the string
+3
+Enter the input string
+0
+0
+1
+
+ string is accepted
+do you want to continue..if yes press 1 else 0
+1
+Enter the length of the string
+2
+Enter the input string
+1
+1
+
+string is not accepted
+do you want to continue..if yes press 1 else 0
+1
+Enter the length of the string
+4
+Enter the input string
+0
+1
+0
+0
+
+ string is accepted
+do you want to continue..if yes press 1 else 0
+0
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\2-DFA> 
+
+===========================================================================
+
+EXPLANATION OF THE SAMPLE OUTPUT:
+
+DFA DEFINITION:
+- States: q0, q1, q2
+- Input Alphabet: {0, 1}
+- Start State: q0
+- Final State: q2
+- Transition Function:
+  * δ(q0, 0) = q1
+  * δ(q0, 1) = q0
+  * δ(q1, 0) = q2
+  * δ(q1, 1) = q1
+  * δ(q2, 0) = q2
+  * δ(q2, 1) = q2
+
+LANGUAGE RECOGNIZED: Strings containing at least two consecutive 0's
+
+TEST CASES:
+
+1. String "001":
+   Processing: q0 --0--> q1 --0--> q2 --1--> q2
+   Result: ACCEPTED (reached final state q2)
+   Reason: Contains "00" (two consecutive 0's)
+
+2. String "11":
+   Processing: q0 --1--> q0 --1--> q0
+   Result: REJECTED (stayed in q0, not final state)
+   Reason: No consecutive 0's present
+
+3. String "0100":
+   Processing: q0 --0--> q1 --1--> q1 --0--> q2 --0--> q2
+   Result: ACCEPTED (reached final state q2)
+   Reason: Contains "00" at the end
+
+DFA STATE DIAGRAM:
+    1     0,1
+q0 ---> q1 ---> q2 (Final)
+|       ^       ^
+|       |       |
++-------+       |
+   1            0
+
+The DFA accepts any string that contains at least one occurrence of "00" (two consecutive zeros).
