@@ -1,0 +1,95 @@
+ALGORITHM: Shift Reduce Parser for Arithmetic Expressions
+
+1. INITIALIZATION:
+   - Declare variables: z, i, j, c (counters and indices)
+   - Declare arrays: a[16] (input string), ac[20] (action message), stk[15] (stack), act[10] (current action)
+   - Display grammar rules:
+     * E -> E+E (addition)
+     * E -> E*E (multiplication) 
+     * E -> (E) (parentheses)
+     * E -> i (identifier)
+
+2. INPUT PHASE:
+   - Read input string and store in array a[]
+   - Calculate string length c = strlen(a)
+   - Initialize action message: strcpy(act, "SHIFT")
+   - Display parsing table header: "stack | input | action"
+
+3. SHIFT-REDUCE PARSING LOOP:
+   - For each character j from 0 to c-1:
+     a. SHIFT Operation:
+        - Display "SHIFT" action
+        - Push current input character a[j] onto stack stk[i]
+        - Mark processed character as space in input
+        - Display current stack and remaining input
+     
+     b. REDUCE Check:
+        - Call check() function to find applicable reductions
+        - Apply grammar rules if patterns match in stack
+
+4. REDUCTION FUNCTION check():
+   - Set reduction message: "REDUCE TO E ->"
+   
+   a. Rule: E -> i (identifier reduction)
+      - Scan stack for identifier 'i'
+      - Replace 'i' with 'E' in stack
+      - Display reduction and updated stack/input
+   
+   b. Rule: E -> E+E (addition reduction)
+      - Look for pattern "E+E" in stack (3 consecutive elements)
+      - Replace "E+E" with single 'E'
+      - Adjust stack pointers (i = i - 2)
+      - Display reduction and updated stack/input
+   
+   c. Rule: E -> E*E (multiplication reduction)
+      - Look for pattern "E*E" in stack (3 consecutive elements)  
+      - Replace "E*E" with single 'E'
+      - Adjust stack pointers (i = i - 2)
+      - Display reduction and updated stack/input
+   
+   d. Rule: E -> (E) (parentheses reduction)
+      - Look for pattern "(E)" in stack (3 consecutive elements)
+      - Replace "(E)" with single 'E'
+      - Adjust stack pointers (i = i - 2)
+      - Display reduction and updated stack/input
+
+5. FINAL REDUCTION CHECK:
+   - After processing all input, call check() once more
+   - Apply any remaining possible reductions
+
+6. ACCEPTANCE TEST:
+   - Check if stack contains exactly one 'E' and nothing else
+   - If stk[0] == 'E' && stk[1] == '\0': Print "Accepted"
+   - Else: Print "Rejected"
+
+7. TERMINATE:
+   - Program ends with acceptance/rejection decision
+
+PARSING STRATEGY:
+- Bottom-up parsing approach
+- Shift tokens onto stack until reduction pattern found
+- Reduce using rightmost derivation in reverse
+- Continue until input exhausted and single non-terminal remains
+
+EXAMPLE PARSING TRACE:
+   Input: "i+i*i"
+   
+   Step 1: SHIFT i    → Stack: $i     Input: +i*i$
+   Step 2: REDUCE     → Stack: $E     Input: +i*i$  (E -> i)
+   Step 3: SHIFT +    → Stack: $E+    Input: i*i$
+   Step 4: SHIFT i    → Stack: $E+i   Input: *i$
+   Step 5: REDUCE     → Stack: $E+E   Input: *i$    (E -> i)
+   Step 6: SHIFT *    → Stack: $E+E*  Input: i$
+   Step 7: SHIFT i    → Stack: $E+E*i Input: $
+   Step 8: REDUCE     → Stack: $E+E*E Input: $      (E -> i)
+   Step 9: REDUCE     → Stack: $E+E   Input: $      (E -> E*E)
+   Step 10: REDUCE    → Stack: $E     Input: $      (E -> E+E)
+   Result: ACCEPTED
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o prog.exe
+           (Compiles the shift-reduce parser)
+   Step 2: ./prog.exe
+           (Executes the parser)
+   Step 3: Enter arithmetic expression when prompted
+   Step 4: Observe parsing steps and final result

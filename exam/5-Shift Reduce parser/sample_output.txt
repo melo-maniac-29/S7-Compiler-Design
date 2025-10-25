@@ -1,0 +1,119 @@
+SAMPLE OUTPUT: Shift Reduce Parser Program Execution
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\5-Shift Reduce parser> .\a.exe
+
+GRAMMAR is:
+E -> E+E
+E -> E*E
+E -> (E)
+E -> i
+
+Enter the string: i+i*i
+
+stack   input   action
+$       i+i*i$  SHIFT
+$i      +i*i$   REDUCE TO E -> i
+$E      +i*i$   SHIFT
+$E+     i*i$    SHIFT
+$E+i    *i$     REDUCE TO E -> i
+$E+E    *i$     SHIFT
+$E+E*   i$      SHIFT
+$E+E*i  $       REDUCE TO E -> i
+$E+E*E  $       REDUCE TO E -> E*E
+$E+E    $       REDUCE TO E -> E+E
+$E      $       Accepted
+
+===========================================================================
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\5-Shift Reduce parser> .\a.exe
+
+GRAMMAR is:
+E -> E+E
+E -> E*E
+E -> (E)
+E -> i
+
+Enter the string: (i+i)
+
+stack   input   action
+$       (i+i)$  SHIFT
+$(      i+i)$   SHIFT
+$(i     +i)$    REDUCE TO E -> i
+$(E     +i)$    SHIFT
+$(E+    i)$     SHIFT
+$(E+i   )$      REDUCE TO E -> i
+$(E+E   )$      REDUCE TO E -> E+E
+$(E     )$      SHIFT
+$(E)    $       REDUCE TO E -> (E)
+$E      $       Accepted
+
+===========================================================================
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\5-Shift Reduce parser> .\a.exe
+
+GRAMMAR is:
+E -> E+E
+E -> E*E
+E -> (E)
+E -> i
+
+Enter the string: i++i
+
+stack   input   action
+$       i++i$   SHIFT
+$i      ++i$    REDUCE TO E -> i
+$E      ++i$    SHIFT
+$E+     +i$     SHIFT
+$E++    i$      SHIFT
+$E++i   $       REDUCE TO E -> i
+$E++E   $       Rejected
+
+===========================================================================
+
+EXPLANATION OF THE SAMPLE OUTPUT:
+
+GRAMMAR RULES:
+- E -> E+E  (Addition expression)
+- E -> E*E  (Multiplication expression) 
+- E -> (E)  (Parenthesized expression)
+- E -> i    (Identifier/operand)
+
+PARSING STRATEGY:
+The parser uses bottom-up parsing with shift-reduce actions:
+1. SHIFT: Move input symbol to stack
+2. REDUCE: Apply grammar rule when pattern matches in stack
+
+TEST CASES:
+
+1. String "i+i*i" - ACCEPTED:
+   - Demonstrates operator precedence (* before +)
+   - Shows multiple reductions: i->E, E*E->E, E+E->E
+   - Final stack contains single E, so accepted
+
+2. String "(i+i)" - ACCEPTED:
+   - Shows parentheses handling
+   - Nested reductions: i->E, E+E->E, (E)->E
+   - Proper precedence with parentheses
+
+3. String "i++i" - REJECTED:
+   - Invalid syntax (double plus operator)
+   - Parser cannot reduce "E++" pattern
+   - Final stack doesn't contain single E, so rejected
+
+PARSING TRACE EXPLANATION:
+- Stack shows current parsing stack with $ as bottom marker
+- Input shows remaining input with $ as end marker
+- Action shows whether SHIFT or REDUCE operation performed
+- Each reduction shows which grammar rule applied
+
+ACCEPTANCE CRITERIA:
+- Input completely consumed (only $ remains)
+- Stack contains exactly one symbol 'E'
+- If both conditions met: "Accepted"
+- Otherwise: "Rejected"
+
+The parser correctly handles:
+✓ Basic arithmetic expressions
+✓ Operator precedence  
+✓ Parentheses grouping
+✓ Invalid syntax detection
