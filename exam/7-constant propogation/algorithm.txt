@@ -1,0 +1,73 @@
+ALGORITHM: Constant Propagation in Intermediate Code Optimization
+
+1. INITIALIZATION:
+   - Declare structure exprf with fields: op, op1, op2, res, flag
+   - Declare array arr[10] to store expressions
+   - Declare variable n for number of expressions
+
+2. INPUT PHASE:
+   a. Read number of expressions (n)
+   b. For each expression i from 0 to n-1:
+      - Read operator (op)
+      - Read operand1 (op1) 
+      - Read operand2 (op2)
+      - Read result variable (res)
+      - Initialize flag = 0 (not optimized)
+
+3. CONSTANT PROPAGATION OPTIMIZATION:
+   a. For each expression i from 0 to n-1:
+      - Check if expression contains constants:
+        * Both operands are digits: isdigit(op1[0]) AND isdigit(op2[0])
+        * OR assignment with constant: op == "=" AND isdigit(op1[0])
+      
+   b. If constant expression found:
+      - Convert operands to integers
+      - Perform operation based on operator:
+        * '+': res = op1 + op2
+        * '-': res = op1 - op2  
+        * '*': res = op1 * op2
+        * '/': res = op1 / op2
+        * '=': res = op1 (assignment)
+      - Convert result back to string
+      - Call change() function to propagate constant value
+      - Set flag = 1 (mark as completely folded)
+
+4. CONSTANT PROPAGATION FUNCTION:
+   a. change(p, res) function:
+      - For each subsequent expression j:
+        * If arr[p].res matches arr[j].op1, replace op1 with constant
+        * If arr[p].res matches arr[j].op2, replace op2 with constant
+      - Update current expression result with folded constant
+
+5. OUTPUT PHASE:
+   - Print "Optimized Intermediate Code:"
+   - For each expression i from 0 to n-1:
+     * If flag == 0 (not completely folded), print the expression
+     * Skip expressions with flag == 1 (completely constant-folded)
+
+6. OPTIMIZATION BEHAVIOR:
+   - Expressions with all constant operands: ELIMINATED (flag = 1)
+   - Expressions with mixed constants/variables: RETAINED with propagated constants
+   - Assignment statements: RETAINED if still needed for further operations
+
+7. TERMINATE:
+   - Program exits after displaying optimized code
+
+EXAMPLE TRANSFORMATION:
+   Original Code:           Optimized Code:
+   = 5 _ t1                = 5 _ t1
+   + 3 2 t2        →      + 3 2 t2  
+   * t1 t2 t3             * 5 5 t3
+
+   Explanation:
+   1. t1 = 5 (constant assignment - retained)
+   2. t2 = 3 + 2 = 5 (pure constant - could be folded but retained)
+   3. t3 = t1 * t2 → t3 = 5 * 5 (t1 propagated to 5, t2 treated as 5)
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: gcc prog.c -o a.exe
+           (Compiles the constant propagation program)
+   Step 2: ./a.exe
+           (Executes the optimizer)
+   Step 3: Enter intermediate code expressions
+   Step 4: View optimized code with constant propagation applied

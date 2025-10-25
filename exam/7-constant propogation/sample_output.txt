@@ -1,0 +1,69 @@
+SAMPLE OUTPUT: Constant Propagation Program Execution
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\7-constant propogation> gcc .\prog.c
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\7-constant propogation> .\a.exe
+
+Enter the maximum number of expressions: 3
+
+Enter the input in the form (op op1 op2 res):
+Example: + 3 2 t1
+= 5 _ t1
++ 3 2 t2
+* t1 t2 t3
+
+Optimized Intermediate Code:
+= 5 _ t1
++ 3 2 t2
+* 5 5 t3
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\7-constant propogation>
+
+===========================================================================
+
+EXPLANATION OF THE SAMPLE OUTPUT:
+
+ORIGINAL INTERMEDIATE CODE:
+1. = 5 _ t1     (t1 = 5)
+2. + 3 2 t2     (t2 = 3 + 2) 
+3. * t1 t2 t3   (t3 = t1 * t2)
+
+CONSTANT PROPAGATION PROCESS:
+
+Step 1: Process "= 5 _ t1"
+   - Constant assignment: t1 = 5
+   - Propagate: Replace all occurrences of 't1' with '5'
+   - Expression retained in output (assignment needed)
+
+Step 2: Process "+ 3 2 t2"
+   - Both operands are constants: 3 + 2 = 5
+   - Could be folded to t2 = 5, but expression retained
+   - No propagation occurs for t2 in this example
+
+Step 3: Process "* t1 t2 t3" 
+   - After propagation: "* 5 t2 t3"
+   - t1 was replaced with constant 5
+   - t2 remains as variable (not propagated in this run)
+   - Final form: "* 5 5 t3" (both operands become 5)
+
+OPTIMIZATION RESULTS:
+- Original expressions: 3
+- Optimized expressions: 3 (all retained)
+- Constant propagation: t1 → 5 successfully propagated
+- Final computation: t3 = 5 * 5 = 25 (computed at runtime)
+
+PROGRAM BEHAVIOR:
+1. **Selective Optimization**: Not all constant expressions are eliminated
+2. **Constant Propagation**: Variables are replaced with their constant values
+3. **Retained Structure**: Basic expression structure is preserved
+4. **Runtime Efficiency**: Reduces variable lookups by using direct constants
+
+BENEFITS:
+1. Faster execution (direct constants instead of variable lookups)
+2. Simplified expressions (fewer variable references)
+3. Reduced memory access (constants in registers vs memory)
+4. Better optimization opportunities for subsequent passes
+
+NOTE: This version demonstrates partial constant propagation where constant values 
+are substituted for variables, but the expression structure is largely preserved 
+for further processing or runtime evaluation.
