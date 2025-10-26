@@ -50,20 +50,26 @@ int main()
 		{
 			buf[k++]=ch;
 		}
-		else if((ch==' '||ch=='\n')&&(j!=0))
+		else if(ch==' ' || ch=='\n')
 		{
-			buffer[j]='\0';
-			buf[k]='\0';
-			j=0;
-			if(iskeyword(buffer)==1)
-				printf("%s is a keyword\n",buffer);
-			else
-				printf("%s is an identifier\n",buffer);
-			if(k!=0)
-			{
-				printf("%s is a constant\n",buf);
-			}		
+    		if(j != 0)
+    		{
+       			buffer[j] = '\0';
+        		if(iskeyword(buffer))
+            		printf("%s is a keyword\n", buffer);
+        		else
+            		printf("%s is an identifier\n", buffer);
+        		j = 0;
+    		}
+
+    		if(k != 0)
+    		{
+        		buf[k] = '\0';
+        		printf("%s is a constant\n", buf);
+        		k = 0;
+    		}
 		}
+
 	
 	}
 	fclose(fp);
