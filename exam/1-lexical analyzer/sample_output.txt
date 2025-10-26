@@ -1,0 +1,88 @@
+SAMPLE OUTPUT: Lexical Analyzer Program Execution
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\1-lexical analyzer> gcc .\prog.c
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\1-lexical analyzer> .\a.exe
+
+int is a keyword
+main is an identifier
+( is a special character
+) is a special character
+{ is a special character
+int is a keyword
+x is an identifier
+10 is a constant
+; is a special character
+float is a keyword
+y is an identifier
+printf is an identifier
+( is a special character
+) is a special character
+; is a special character
+} is a special character
+
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\1-lexical analyzer>
+
+===========================================================================
+
+EXPLANATION OF THE SAMPLE OUTPUT:
+
+INPUT FILE (program.txt):
+int main()
+{
+    int x = 10;
+    float y;
+    printf();
+}
+
+LEXICAL ANALYSIS PROCESS:
+
+1. TOKEN IDENTIFICATION:
+   - "int" → Matched in keyword array → "int is a keyword"
+   - "main" → Not in keyword array → "main is an identifier"
+   - "(" → Found in specialch[] → "( is a special character"
+   - ")" → Found in specialch[] → ") is a special character"
+   - "{" → Found in specialch[] → "{ is a special character"
+
+2. VARIABLE DECLARATION ANALYSIS:
+   - "int" → Keyword recognition
+   - "x" → Single character identifier
+   - "10" → Numeric constant (digits accumulated in buf[])
+   - ";" → Special character delimiter
+
+3. SECOND DECLARATION:
+   - "float" → Keyword (floating-point type)
+   - "y" → Variable identifier
+   - ";" → Statement terminator
+
+4. FUNCTION CALL:
+   - "printf" → Identified as identifier (not keyword)
+   - "()" → Special characters for function call
+   - ";" → Statement terminator
+
+5. BLOCK CLOSURE:
+   - "}" → Special character marking end of block
+
+PROGRAM BEHAVIOR:
+- Reads input file character by character
+- Accumulates alphabetic characters into identifier buffer
+- Accumulates digits into number buffer
+- Immediately identifies operators and special characters
+- Processes complete tokens when whitespace encountered
+
+TOKENS DETECTED:
+- Keywords: int (2x), float
+- Identifiers: main, x, y, printf
+- Constants: 10
+- Special Characters: (, ), {, ;, }
+- Operators: None in this example
+
+LIMITATIONS OBSERVED:
+- Assignment operator "=" not detected (not in operator array)
+- String literals like "Hello" not handled
+- Decimal numbers like "3.14" may be split
+- Comments are not filtered out
+
+NOTE: The program successfully demonstrates basic lexical analysis by 
+categorizing input tokens into their respective types, which is the 
+first phase of compilation process.

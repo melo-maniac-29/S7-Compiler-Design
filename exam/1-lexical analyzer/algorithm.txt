@@ -1,0 +1,109 @@
+ALGORITHM: Lexical Analyzer for C Programming Language
+
+1. INITIALIZATION:
+   - Declare character arrays: buffer[15] (identifiers), buf[10] (numbers)
+   - Define operator set: "+-*/%"
+   - Define special character set: ",;[]{}"
+   - Define keyword array with 32 C keywords
+   - Declare counters: j=0 (identifier index), k=0 (number index)
+
+2. KEYWORD CHECKING FUNCTION (iskeyword):
+   - Input: buffer containing potential keyword
+   - Compare with predefined keyword array using strcmp()
+   - Return 1 if keyword found, 0 otherwise
+   - Keywords include: auto, break, case, char, const, continue, default, do, 
+     double, else, enum, extern, float, for, goto, if, int, long, register, 
+     return, short, signed, sizeof, static, struct, switch, typedef, union, 
+     unsigned, void, volatile, while
+
+3. FILE PROCESSING:
+   - Open "program.txt" for reading
+   - If file opening fails, display error and exit
+   - Read characters one by one using fgetc() until EOF
+
+4. CHARACTER CLASSIFICATION:
+   a. OPERATOR DETECTION:
+      - For each character, check against operator array "+-*/%"
+      - If match found: Print "character is an operator"
+   
+   b. SPECIAL CHARACTER DETECTION:
+      - For each character, check against special character array ",;[]{}"
+      - If match found: Print "character is a special character"
+   
+   c. ALPHABETIC CHARACTER PROCESSING:
+      - If character is alphabetic (isalpha()):
+        * Add to buffer[j] and increment j
+        * Continue building identifier/keyword
+   
+   d. DIGIT PROCESSING:
+      - If character is digit (isdigit()):
+        * Add to buf[k] and increment k
+        * Continue building numeric constant
+
+5. TOKEN COMPLETION:
+   - When space (' ') or newline ('\n') encountered:
+     a. IDENTIFIER/KEYWORD PROCESSING:
+        - If j != 0 (buffer has content):
+          * Null-terminate buffer
+          * Call iskeyword(buffer)
+          * If keyword: Print "buffer is a keyword"
+          * Else: Print "buffer is an identifier"
+          * Reset j = 0
+     
+     b. CONSTANT PROCESSING:
+        - If k != 0 (numeric buffer has content):
+          * Null-terminate buf
+          * Print "buf is a constant"
+          * Reset k = 0
+
+6. TOKEN TYPES RECOGNIZED:
+   - Keywords: Reserved C language words
+   - Identifiers: User-defined names (variables, functions)
+   - Operators: Arithmetic operators (+, -, *, /, %)
+   - Special Characters: Delimiters and punctuation
+   - Constants: Numeric literals
+
+7. OUTPUT FORMAT:
+   - "character is an operator"
+   - "character is a special character"
+   - "token is a keyword"
+   - "token is an identifier"
+   - "token is a constant"
+
+8. FILE CLEANUP:
+   - Close input file using fclose()
+   - Return 0 (successful execution)
+
+9. TERMINATE:
+   - Program exits after processing entire input file
+
+LEXICAL ANALYSIS PROCESS:
+   Input File (program.txt): "int main() { int x = 5; }"
+   
+   Tokens Generated:
+   - "int" → keyword
+   - "main" → identifier  
+   - "(" → special character
+   - ")" → special character
+   - "{" → special character
+   - "int" → keyword
+   - "x" → identifier
+   - "=" → (not detected by this program)
+   - "5" → constant
+   - ";" → special character
+   - "}" → special character
+
+LIMITATIONS:
+- Does not handle assignment operators (=, ==, !=)
+- Limited special character set
+- No string literal recognition
+- No comment handling
+- No preprocessor directive support
+
+COMPILATION AND EXECUTION STEPS:
+   Step 1: Create input file "program.txt" with C code
+   Step 2: gcc prog.c -o prog.exe
+           (Compiles the lexical analyzer)
+   Step 3: ./prog.exe
+           (Executes analyzer on program.txt)
+   Step 4: View tokenized output
