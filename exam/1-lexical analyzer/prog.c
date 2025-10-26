@@ -18,7 +18,7 @@ int iskeyword(char buffer[])
 {
 	// Array containing all 32 C keywords
 	char keywords[32][10]={"auto","break","case","char","const","continue","default","do","double","else","enum","extern","float","for","goto","if","int","long","register","return","short","signed",
-	"sizeof","static","struct","switch","typeof","union","unsigned","void","volatile","while"};
+	"sizeof","static","struct","switch","typedef","union","unsigned","void","volatile","while"};
 	
 	int i,flag=0;  // flag=0 means not a keyword, flag=1 means it's a keyword
 	
@@ -42,7 +42,6 @@ int main()
 	char buffer[15];            // Buffer to store identifiers/keywords
 	char operators[]="+-*/%";   // Array of operators to recognize
 	char specialch[]=",;[]{}";  // Array of special characters to recognize
-	char num[]="0123456789";    // Array of digits (not actually used)
 	char buf[10];               // Buffer to store numeric constants
 	FILE *fp;                   // File pointer for input file
 	int i,j=0,k=0;             // i: loop counter, j: buffer index, k: number buffer index
@@ -57,15 +56,18 @@ int main()
 	// Main lexical analysis loop - read file character by character
 	while((ch=fgetc(fp))!=EOF)
 	{
-		// Check if current character is an operator or special character
-		for(i=0;i<6;++i)
+		// Check if current character is an operator (5 operators: +, -, *, /, %)
+		for(i=0;i<5;++i)
 		{
-			// Check for operators: +, -, *, /, %
 			if(ch==operators[i])
 			{
 				printf("%c is an operator\n",ch);
 			}
-			// Check for special characters: ,, ;, [, ], {, }
+		}
+		
+		// Check if current character is a special character (6 special chars: ,, ;, [, ], {, })
+		for(i=0;i<6;++i)
+		{
 			if(ch==specialch[i])
 			{
 				printf("%c is a special character\n",ch);
@@ -108,6 +110,24 @@ int main()
     		}
 		}
 	}
+	
+	// Process any remaining tokens in buffers after EOF
+	// (handles case where file doesn't end with whitespace)
+	if(j != 0)
+	{
+		buffer[j] = '\0';  // Null-terminate the string
+		if(iskeyword(buffer))
+			printf("%s is a keyword\n", buffer);
+		else
+			printf("%s is an identifier\n", buffer);
+	}
+
+	if(k != 0)
+	{
+		buf[k] = '\0';  // Null-terminate the number string
+		printf("%s is a constant\n", buf);
+	}
+	
 	// Clean up: close the input file
 	fclose(fp);
 	return 0;  // Successful program termination
