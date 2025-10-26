@@ -1,0 +1,13 @@
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\9-backend> gcc .\prog.c
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\9-backend> .\a.exe
+
+Enter the set of intermediate code(Terminated by exit):
+a=Z*B
+exit
+
+Target code generation
+***********************
+MOV Z,R0
+MUL B,R0
+MOV R0,a
+PS C:\Users\allen\workspace\KTU-sem7-compilerdesign-programs-main\exam\9-backend> 
