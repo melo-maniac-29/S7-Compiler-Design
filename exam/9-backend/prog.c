@@ -28,3 +28,23 @@ int main() {
 
     return 0;
 }
+
+/*
+/*
+PS C:\Users\allen\OneDrive\Desktop\test\9-backend> gcc .\prog.c
+PS C:\Users\allen\OneDrive\Desktop\test\9-backend> .\a.exe
+enter how many number of expressions to convert3
+enter the expression in format op arg1 arg2 res
++ 3 4 t1
+assembly code
+MOV R0,3
+ADD R0,4
+MOV t1,R0
+enter the expression in format op arg1 arg2 res
+* 4 5 t2
+assembly code
+MOV R0,4
+MUL R0,5
+MOV t2,R0
+enter the expression in format op arg1 arg2 res
+*/
